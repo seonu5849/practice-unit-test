@@ -26,7 +26,7 @@ public class CafeKiosk {
 
     public int calculateTotalPrice() {
         return beverages.stream()
-                .map(Beverage::getPirate)
+                .map(Beverage::getPrice)
                 .reduce(0, Integer::sum);
     }
 

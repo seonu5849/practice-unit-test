@@ -4,7 +4,7 @@ public interface Beverage {
 
     String getName();
 
-    int getPirate();
+    int getPrice();
 
 
 
