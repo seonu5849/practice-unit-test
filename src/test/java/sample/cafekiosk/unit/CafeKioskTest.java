@@ -142,18 +142,21 @@ class CafeKioskTest {
                 .hasMessage("주문 시간이 아닙니다. 관리자에게 문의하세요.");
     }
 
-    @DisplayName("TDD 방식 구현_레드")
+    @DisplayName("주문 목록에 담긴 상품들의 총 금액을 계산할 수 있다.")
     @Test
     void calculateTotalPrice() {
         // TDD: 테스트 코드를 먼저 작성하고 구현 메소드를 작성
+        // BDD: given - when - then 전략
+        // BDD는 TDD에서 파생된 것으로 시나리오 기반으로 테스트 케이스를 만드는 것을 의미함.
         // given
         CafeKiosk cafeKiosk = new CafeKiosk();
         Americano americano = new Americano();
         Latte latte = new Latte();
 
-        // when
         cafeKiosk.add(americano);
         cafeKiosk.add(latte);
+
+        // when
         int totalPrice = cafeKiosk.calculateTotalPrice();
 
         // then
