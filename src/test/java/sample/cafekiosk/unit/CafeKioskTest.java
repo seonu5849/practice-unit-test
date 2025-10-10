@@ -141,4 +141,22 @@ class CafeKioskTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("주문 시간이 아닙니다. 관리자에게 문의하세요.");
     }
+
+    @DisplayName("TDD 방식 구현_레드")
+    @Test
+    void calculateTotalPrice() {
+        // TDD: 테스트 코드를 먼저 작성하고 구현 메소드를 작성
+        // given
+        CafeKiosk cafeKiosk = new CafeKiosk();
+        Americano americano = new Americano();
+        Latte latte = new Latte();
+
+        // when
+        cafeKiosk.add(americano);
+        cafeKiosk.add(latte);
+        int totalPrice = cafeKiosk.calculateTotalPrice();
+
+        // then
+        assertThat(totalPrice).isEqualTo(8500);
+    }
 }
