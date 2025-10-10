@@ -157,6 +157,6 @@ class CafeKioskTest {
         int totalPrice = cafeKiosk.calculateTotalPrice();
 
         // then
-        assertThat(totalPrice).isEqualTo(8500);
+        assertThat(totalPrice).isEqualTo(9000);
     }
 }
