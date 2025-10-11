@@ -23,7 +23,17 @@ public class OrderService {
 
     public OrderResponse createOrder(OrderCreateRequest request, LocalDateTime registeredDateTime) {
         List<String> productNumbers = request.getProductNumbers();
-        // Product
+
+        List<Product> productsBy = findProductsBy(productNumbers);
+
+
+        Order order = Order.create(productsBy, registeredDateTime);
+        Order savedOrder = orderRepository.save(order);
+
+        return OrderResponse.of(savedOrder);
+    }
+
+    private List<Product> findProductsBy(List<String> productNumbers) {
         List<Product> products = productRepository.findAllByProductNumberIn(productNumbers);
 
         // DB에서 반환된 결과값을 map형태로 변환
@@ -32,14 +42,8 @@ public class OrderService {
 
         // 중복값이 넘어왔을 경우 해결책 ("001", "001")
         // productNumbers를 순회하면서 DB에서 찾은 결과(Map)과 매핑하여 새로운 List를 생성
-        List<Product> duplicateProducts = productNumbers.stream()
+        return productNumbers.stream()
                 .map(productMap::get)
                 .toList();
-
-        // Order
-        Order order = Order.create(duplicateProducts, registeredDateTime);
-        Order savedOrder = orderRepository.save(order);
-
-        return OrderResponse.of(savedOrder);
     }
 }
