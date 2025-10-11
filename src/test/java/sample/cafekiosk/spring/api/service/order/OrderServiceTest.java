@@ -25,7 +25,7 @@ import static sample.cafekiosk.spring.domain.product.ProductType.HANDMADE;
 
 @ActiveProfiles("test")
 @SpringBootTest
-//@DataJpaTest
+//@DataJpaTest // @Transactional 어노테이션이 붙어 있어서, 테스트가 종료되면 자동으로 Rollback을 진행
 class OrderServiceTest {
 
     @Autowired
