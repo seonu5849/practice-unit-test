@@ -36,7 +36,7 @@ public class Order extends BaseEntity {
         this.orderStatus = OrderStatus.INIT;
         this.totalPrice = calculateTotalPrice(products);
         this.registeredDateTime = registeredDateTime;
-        this.orderProducts = products.stream()
+        this.orderProducts = products.stream() // @Transactional에 의해 더티체킹하여 따로 orderProduct에 대한 save를 수행하지 않아도 자동으로 insert를 수행
                 .map(product -> new OrderProduct(this, product))
                 .toList();
     }

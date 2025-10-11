@@ -28,7 +28,7 @@ import static sample.cafekiosk.spring.domain.product.ProductSellingStatus.*;
 import static sample.cafekiosk.spring.domain.product.ProductType.*;
 
 @ActiveProfiles("test")
-@Transactional
+//@Transactional
 @SpringBootTest
 //@DataJpaTest // @Transactional 어노테이션이 붙어 있어서, 테스트가 종료되면 자동으로 Rollback을 진행
 class OrderServiceTest {
@@ -49,13 +49,14 @@ class OrderServiceTest {
     private StockRepository stockRepository;
 
     // 매 테스트가 끝난 후 실행하면서 테스트를 수행한 데이터를 모두 지워준다.
-//    @AfterEach
-//    void tearDown() {
-//        // 삭제하는 순서 중요, orderProduct가 자식 테이블이기 때문에 부모보다 먼저 삭제를 진행해야 에러가 발생하지 않음.
-//        orderProductRepository.deleteAllInBatch();
-//        productRepository.deleteAllInBatch();
-//        orderRepository.deleteAllInBatch();
-//    }
+    @AfterEach
+    void tearDown() {
+        // 삭제하는 순서 중요, orderProduct가 자식 테이블이기 때문에 부모보다 먼저 삭제를 진행해야 에러가 발생하지 않음.
+        orderProductRepository.deleteAllInBatch();
+        productRepository.deleteAllInBatch();
+        orderRepository.deleteAllInBatch();
+        stockRepository.deleteAllInBatch();
+    }
 
     @DisplayName("주문번호 리스트를 받아 주문을 생성한다.")
     @Test
