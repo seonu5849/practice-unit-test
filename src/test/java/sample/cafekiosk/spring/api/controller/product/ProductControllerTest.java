@@ -14,7 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import sample.cafekiosk.spring.api.controller.product.dto.request.ProductCreateReqeust;
+import sample.cafekiosk.spring.api.controller.product.dto.request.ProductCreateRequest;
 import sample.cafekiosk.spring.api.service.product.ProductService;
 import sample.cafekiosk.spring.api.service.product.response.ProductResponse;
 import sample.cafekiosk.spring.domain.product.ProductSellingStatus;
@@ -42,7 +42,7 @@ class ProductControllerTest {
     @Test
     void createProduct() throws Exception {
         // given
-        ProductCreateReqeust reqeust = ProductCreateReqeust.builder()
+        ProductCreateRequest reqeust = ProductCreateRequest.builder()
                 .type(ProductType.HANDMADE)
                 .sellingStatus(ProductSellingStatus.SELLING)
                 .name("아메리카노")
@@ -63,7 +63,7 @@ class ProductControllerTest {
     @Test
     void createProductWithoutType() throws Exception {
         // given
-        ProductCreateReqeust reqeust = ProductCreateReqeust.builder()
+        ProductCreateRequest reqeust = ProductCreateRequest.builder()
                 .sellingStatus(ProductSellingStatus.SELLING)
                 .name("아메리카노")
                 .price(4000)
@@ -88,7 +88,7 @@ class ProductControllerTest {
     @Test
     void createProductWithoutSellingStatus() throws Exception {
         // given
-        ProductCreateReqeust reqeust = ProductCreateReqeust.builder()
+        ProductCreateRequest reqeust = ProductCreateRequest.builder()
                 .type(ProductType.HANDMADE)
                 .name("아메리카노")
                 .price(4000)
@@ -113,7 +113,7 @@ class ProductControllerTest {
     @Test
     void createProductWithoutName() throws Exception {
         // given
-        ProductCreateReqeust reqeust = ProductCreateReqeust.builder()
+        ProductCreateRequest reqeust = ProductCreateRequest.builder()
                 .type(ProductType.HANDMADE)
                 .sellingStatus(ProductSellingStatus.SELLING)
                 .price(4000)
@@ -138,7 +138,7 @@ class ProductControllerTest {
     @Test
     void createProductWithoutZeroPrice() throws Exception {
         // given
-        ProductCreateReqeust reqeust = ProductCreateReqeust.builder()
+        ProductCreateRequest reqeust = ProductCreateRequest.builder()
                 .type(ProductType.HANDMADE)
                 .sellingStatus(ProductSellingStatus.SELLING)
                 .name("아메리카노")
