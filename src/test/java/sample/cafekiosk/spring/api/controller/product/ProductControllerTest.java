@@ -3,6 +3,7 @@ package sample.cafekiosk.spring.api.controller.product;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,13 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import sample.cafekiosk.spring.api.controller.product.dto.request.ProductCreateReqeust;
 import sample.cafekiosk.spring.api.service.product.ProductService;
+import sample.cafekiosk.spring.api.service.product.response.ProductResponse;
 import sample.cafekiosk.spring.domain.product.ProductSellingStatus;
 import sample.cafekiosk.spring.domain.product.ProductType;
+
+import java.util.List;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 @WebMvcTest(ProductController.class) // 컨트롤러 관련 빈들을 간단하게 등록해주는 어노테이션
 class ProductControllerTest {
@@ -150,6 +156,30 @@ class ProductControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.code").value(400)) // 결과에서 나오는 json을 $.{key_name}로 값만 불러와서 맞는지 검증할 수 있다.
                 .andExpect(MockMvcResultMatchers.jsonPath("$.status").value("BAD_REQUEST"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("상품 가격은 양수여야 합니다."))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.data").isEmpty())
+        ;
+    }
+
+    @DisplayName("판매 상품을 조회한다.")
+    @Test
+    void getSellingProducts() throws Exception {
+        // given
+        List<ProductResponse> result = List.of();
+
+        // 가짜 객체가 특정 메소드를 호출받으면 미리 정해놓은 결과를 반환하도록 행동을 지시하는 코드
+        Mockito.when(productService.getSellingProducts()).thenReturn(result);
+        
+        // when
+        
+        // then
+        mockMvc.perform(
+                get("/api/v1/products/selling")
+        )
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.code").value(200))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.status").value("OK"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("OK"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.data").isEmpty())
         ;
     }
