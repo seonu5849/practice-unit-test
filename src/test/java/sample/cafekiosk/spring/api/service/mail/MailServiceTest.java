@@ -2,7 +2,11 @@ package sample.cafekiosk.spring.api.service.mail;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import sample.cafekiosk.spring.client.mail.MailSendClient;
 import sample.cafekiosk.spring.domain.history.MailSendHistory;
 import sample.cafekiosk.spring.domain.history.MailSendHistoryRepository;
@@ -12,16 +16,25 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 
+// 테스트가 시작될 때, Mockito를 이용해서 mock을 만들거라는 것을 인지시키기 위해 사용
+@ExtendWith(MockitoExtension.class)
 class MailServiceTest {
+
+    @Mock
+    private MailSendClient mailSendClient;
+
+    @Mock
+    private MailSendHistoryRepository mailSendHistoryRepository;
+
+    // MailService 객체를 생성시 필요한 인자들을 mock으로 넣어주기 위한 어노테이션
+    // Bean으로 자동 주입하는 DI와 비슷.
+    @InjectMocks
+    private MailService mailService;
 
     @DisplayName("메일 전송 테스트")
     @Test
     void sendMail() {
         // given
-        MailSendClient mailSendClient = Mockito.mock(MailSendClient.class);
-        MailSendHistoryRepository mailSendHistoryRepository = Mockito.mock(MailSendHistoryRepository.class);
-
-        MailService mailService = new MailService(mailSendClient, mailSendHistoryRepository);
 
         // stubbing
         Mockito.when(mailSendClient.sendEmail(anyString(), anyString(), anyString(), anyString()))
