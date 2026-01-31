@@ -3,10 +3,7 @@ package sample.cafekiosk.spring.api.service.mail;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.Spy;
+import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 import sample.cafekiosk.spring.client.mail.MailSendClient;
 import sample.cafekiosk.spring.domain.history.MailSendHistory;
@@ -21,7 +18,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 @ExtendWith(MockitoExtension.class)
 class MailServiceTest {
 
-    @Spy
+    @Mock
     private MailSendClient mailSendClient;
 
     @Mock
@@ -37,24 +34,9 @@ class MailServiceTest {
     void sendMail() {
         // given
 
-        // stubbing
-//        Mockito.when(mailSendClient.sendEmail(anyString(), anyString(), anyString(), anyString()))
-//                .thenReturn(true);
-
-        // @Spy는 실제 객체의 메서드를 감시(Spying)합니다.
-        // standard stubbing(when().thenReturn())은 대상 메서드를 실제로 한 번 호출하기 때문에,
-        // 실제 메일 발송 같은 부수 효과(Side Effect)를 차단하고자 doReturn() 방식을 적용합니다.
-        Mockito.doReturn(true)
-                .when(mailSendClient)
-                .sendEmail(anyString(), anyString(), anyString(), anyString());
-
-        // @Spy는 실제 객체를 기반으로 생성되므로, 스터빙(Stubbing)하지 않은 메서드는 실제 로직을 수행합니다.
-        // 아래 로그는 MailSendClient의 a(), b(), c() 메서드가 실제 구현체대로 실행되었음을 보여줍니다.
-        /**
-         * 16:48:27.235 [Test worker] INFO sample.cafekiosk.spring.client.mail.MailSendClient -- a
-         * 16:48:27.237 [Test worker] INFO sample.cafekiosk.spring.client.mail.MailSendClient -- b
-         * 16:48:27.237 [Test worker] INFO sample.cafekiosk.spring.client.mail.MailSendClient -- c
-         */
+        // Mockito.when과 BDDMockito.given은 동일한 동작을 수행하지만, BDDMockito의 given은 BDD의 의미를 부여한 것이다. (그냥 이름만 바뀜)
+        Mockito.when(mailSendClient.sendEmail(anyString(), anyString(), anyString(), anyString())).thenReturn(true);
+        BDDMockito.given(mailSendClient.sendEmail(anyString(), anyString(), anyString(), anyString())).willReturn(true);
 
         // when
         boolean result = mailService.sendMail("", "", "", "");
